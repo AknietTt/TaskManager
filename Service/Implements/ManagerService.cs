@@ -43,12 +43,14 @@ namespace Service.Implements {
             return true;
         }
 
-        public Task<IEnumerable<ManagerDto>> GetAll() {
-            throw new NotImplementedException();
+        public async Task<IEnumerable<ManagerDto>> GetAll() {
+            var managers = await _managerRepositry.GetAll();
+            var mangersDtos = _mapper.Map<IEnumerable<ManagerDto>>(managers);
+            return mangersDtos;
         }
 
         public async Task<ManagerDto> GetById(int id) {
-            var manager =  _managerRepositry.GetById(id);
+            var manager = await _managerRepositry.GetById(id);
             if(manager == null)
                 return null;
 
