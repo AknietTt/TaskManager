@@ -69,8 +69,6 @@ namespace Service.Implements {
             employee.FirstName = employeeDto.FirstName;
             employee.LastName = employeeDto.LastName;
             employee.Position = employeeDto.Position;
-            var manager = await _managerRepository.GetById(employeeDto.ManagerID);
-            employee.Manager = manager; 
 
             await _employeeRepository.Update(employee);
             return true ;

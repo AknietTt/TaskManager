@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace Service.Interface {
     public interface ITaskService {
-        Task<bool> Create(TaskDto entity);
+        Task<bool> Create(TaskDto entity, int managerId,int employeeId);
         Task<TaskDto> GetById(int id);
         Task<IEnumerable<TaskDto>> GetAll();
         Task<bool> Delete(TaskDto entity);
         Task<bool> Update(TaskDto entity);
+        Task<ManagerDto> GetManager(int idTask);
     }
 }

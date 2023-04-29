@@ -1,9 +1,6 @@
 ﻿using DAL.Interface;
-
 using Domain.Models;
-
 using Microsoft.EntityFrameworkCore;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,11 +30,12 @@ namespace DAL.Repository {
         }
 
         public async Task<IEnumerable<Domain.Models.Task>> GetAll() {
-            return await _context.Tasks.ToListAsync();
+            return await _context.Tasks.Include(e=>e.Employee).Include(e=>e.Manager).ToListAsync();
         }
 
         public async Task<Domain.Models.Task> GetById(int id) {
-            var task = await _context.Tasks.FindAsync(id);
+            var task = await _context.Tasks.Include(e=>e.Employee).Include(e => e.Manager).FirstOrDefaultAsync(x=>x.Id == id);
+
             if(task == null) {
                 return null;
             }

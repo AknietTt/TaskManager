@@ -39,7 +39,7 @@ namespace DAL.Repository {
         }
 
         public async Task<IEnumerable<Employee>> GetAll() {
-            return await _context.Employees.ToListAsync();
+            return await _context.Employees.Include(e=>e.Manager).ToListAsync();
         }
 
         public async Task<Employee> GetById(int id) {

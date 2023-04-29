@@ -20,9 +20,9 @@ namespace TaskManager.Controllers {
             return Ok(res);
         }
 
-        [HttpPost("add")]
-        public async Task<IActionResult> Add([FromBody] TaskDto taskDto) {
-            if(await _taskService.Create(taskDto)) {
+        [HttpPost("add/{managerId}/{employeeId}")]
+        public async Task<IActionResult> Add([FromBody] TaskDto taskDto, int managerId, int employeeId){
+            if(await _taskService.Create(taskDto,managerId,employeeId)) {
                 return Ok(taskDto);
             }
             return BadRequest();
@@ -38,6 +38,15 @@ namespace TaskManager.Controllers {
                 return BadRequest();
             }
             return Ok(task);
+        }
+
+        [HttpGet("getManager/{idTask}")]
+        public async Task<IActionResult> GetManager(int idTask) {
+            ManagerDto manager = await _taskService.GetManager(idTask);
+            if(manager == null) {
+                return BadRequest();
+            }
+            return Ok(manager);
         }
     }
 }

@@ -16,8 +16,9 @@ namespace Service.Helper {
             CreateMap<Manager,ManagerDto>();
             CreateMap<ManagerDto,Manager>();
 
-            CreateMap<Domain.Models.Task,Domain.DTO.TaskDto>();
-            CreateMap<Domain.DTO.TaskDto,Domain.Models.Task>();
-        }
+            CreateMap<TaskDto,Domain.Models.Task>();
+
+            CreateMap<Domain.Models.Task,TaskDto>();
+         }
     }
 }
