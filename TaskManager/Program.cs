@@ -27,6 +27,8 @@ builder.Services.AddScoped<IManagerService,ManagerService>();
 builder.Services.AddScoped<ITaskRepository,TaskRepository>();
 builder.Services.AddScoped<ITaskService,TaskService>();
 
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

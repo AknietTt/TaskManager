@@ -10,6 +10,7 @@ using Service.Interface;
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,9 @@ namespace Service.Implements {
 
         public async Task<bool> Create(ManagerDto entity) {
             try {
+                if(!ValidationDto(entity)){
+                    return false;
+                }
                 var manager = _mapper.Map<Manager>(entity);
                 await _managerRepositry.Create(manager);
             } catch(Exception) {
@@ -35,6 +39,9 @@ namespace Service.Implements {
 
         public async Task<bool> Delete(ManagerDto entity) {
             try {
+                if(!ValidationDto(entity)) {
+                    return false;
+                }
                 var manager = _mapper.Map<Manager>(entity);
                 await _managerRepositry.Delete(manager);
             } catch(Exception) {
@@ -59,6 +66,9 @@ namespace Service.Implements {
         }
 
         public async Task<bool> Update(ManagerDto entity) {
+            if(!ValidationDto(entity)) {
+                return false;
+            }
             var manager = await _managerRepositry.GetById(entity.Id);
             if(manager == null) {
                 return false;
@@ -69,6 +79,15 @@ namespace Service.Implements {
             manager.Position = entity.Position;
 
             await _managerRepositry.Update(manager);
+            return true;
+        }
+
+
+        private bool ValidationDto(ManagerDto entity) {
+            var volidationResults = new List<ValidationResult>();
+            if(!Validator.TryValidateObject(entity,new ValidationContext(entity),volidationResults)) {
+                return false;
+            }
             return true;
         }
     }

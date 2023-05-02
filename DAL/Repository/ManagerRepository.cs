@@ -36,7 +36,9 @@ namespace DAL.Repository {
         }
 
         public async Task<Manager> GetById(int id) {
-            Manager manager =  _context.Managers.FirstOrDefault(x=>x.Id == id); 
+
+            var manager = await _context.Managers.FindAsync(id); 
+
             if(manager == null) {
                 return null;
             }

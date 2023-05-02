@@ -1,11 +1,7 @@
 ﻿using AutoMapper;
-
 using DAL.Interface;
-
 using Domain.Models;
-
 using Microsoft.EntityFrameworkCore;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +11,9 @@ using System.Threading.Tasks;
 namespace DAL.Repository {
     public class EmployeeRepository:IEmployeeRepository, IBaseRepository<Employee> {
         private readonly ApplicationDbContext _context;
-        private readonly IMapper _mapper;
 
         public EmployeeRepository(ApplicationDbContext context,IMapper mapper) {
             _context = context;
-            _mapper = mapper;
         }
 
         public async Task<bool> Create(Employee entity) {

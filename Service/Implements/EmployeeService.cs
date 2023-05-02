@@ -7,6 +7,7 @@ using Domain.Models;
 using Service.Interface;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,7 +26,13 @@ namespace Service.Implements {
 
         public async Task<bool> Create(EmployeeDto entity) {
             try {
+                if(!ValidationDto(entity)) {
+                    return false;
+                }
+                
                 var employee = mapper.Map<Employee>(entity);
+                employee.Manager = await _managerRepository.GetById(entity.ManagerID);
+
                 await _employeeRepository.Create(employee);
             } catch(Exception) {
                 return false;
@@ -35,6 +42,10 @@ namespace Service.Implements {
 
         public async Task<bool> Delete(EmployeeDto entity) {
             try {
+                if(!ValidationDto(entity)) {
+                    return false;
+                }
+
                 var employee = mapper.Map<Employee>(entity);
                 await _employeeRepository.Delete(employee);
             } catch(Exception) {
@@ -66,12 +77,23 @@ namespace Service.Implements {
                 return false;
             }
 
+            if(!ValidationDto(employeeDto)) {
+                return false;
+            }
             employee.FirstName = employeeDto.FirstName;
             employee.LastName = employeeDto.LastName;
             employee.Position = employeeDto.Position;
 
             await _employeeRepository.Update(employee);
             return true ;
+        }
+
+        private bool ValidationDto(EmployeeDto entity) {
+            var volidationResults = new List<ValidationResult>();
+            if(!Validator.TryValidateObject(entity,new ValidationContext(entity),volidationResults)) {
+                return false;
+            }
+            return true;
         }
     }
 }
