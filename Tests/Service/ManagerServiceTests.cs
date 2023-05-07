@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using Xunit;
 
 namespace Tests.Service {
@@ -44,6 +43,33 @@ namespace Tests.Service {
             Assert.Equal(expected,res);
         }
 
+        [Theory, MemberData(nameof(ManagerTestData))]
+        public async void Delete_Should_Delete_Manager_ReturnTrue(ManagerDto manager, bool expected) {
+            //Arrange
+            var repositoryManager = A.Fake<IManagerRepository>();
+            var mapper = A.Fake<IMapper>();
+            var service = new ManagerService(repositoryManager,mapper);
 
+            //Act
+            var res = await service.Delete(manager);
+
+            //Assert
+            Assert.Equal(expected,res);
+        }
+
+        [Theory, MemberData(nameof(ManagerTestData))]
+        public async void Update_Should_Update_Manager_ReturnTrue(ManagerDto manager,bool expected) {
+            //Arrange
+            var repositoryManager = A.Fake<IManagerRepository>();
+            var mapper = A.Fake<IMapper>();
+            var service = new ManagerService(repositoryManager,mapper);
+
+            //Act
+            var res = await service.Update(manager);
+
+            //Assert
+            Assert.Equal(expected,res);
+
+        }
     }
 }

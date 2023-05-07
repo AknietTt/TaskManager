@@ -6,6 +6,7 @@ using Domain.Models;
 using Service.Interface;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,9 @@ namespace Service.Implements {
 
         public async Task<bool> Create(TaskDto entity, int managerId, int employeeId) {
             try {
+                if(!ValidationDto(entity)) {
+                    return false;
+                }
                 var task = _mapper.Map<Domain.Models.Task>(entity);
                 task.Employee = await _employeeRepository.GetById(employeeId);
                 task.Manager = await _managerRepositry.GetById(managerId);
@@ -74,6 +78,15 @@ namespace Service.Implements {
 
         public Task<bool> Update(TaskDto entity) {
             throw new NotImplementedException();
+        }
+
+
+        private bool ValidationDto(TaskDto entity) {
+            var volidationResults = new List<ValidationResult>();
+            if(!Validator.TryValidateObject(entity,new ValidationContext(entity),volidationResults)) {
+                return false;
+            }
+            return true;
         }
     }
 }

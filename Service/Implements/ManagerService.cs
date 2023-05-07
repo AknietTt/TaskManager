@@ -1,13 +1,9 @@
 ﻿using AutoMapper;
-
 using DAL.Interface;
 using DAL.Repository;
-
 using Domain.DTO;
 using Domain.Models;
-
 using Service.Interface;
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
